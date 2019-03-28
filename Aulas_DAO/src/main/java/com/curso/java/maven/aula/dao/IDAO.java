@@ -1,4 +1,4 @@
-package com.curso.java.maven.aula;
+package com.curso.java.maven.aula.dao;
 
 import java.util.Collection;
 import java.util.Set;
@@ -12,9 +12,8 @@ public interface IDAO {
 	// Visibilidad Tipo/clase nombre (parametros)
 	public void createAula(Aula aula);
 	public Aula getAula(String nombreAula);
-	public Set<Aula> getAulas();
+	public Collection<Aula> getAulas();
 	public void updateAula(Aula aula);
 	public void deleteAula(String nombreAula);
-	public Collection<Alumno> listaDeAlumnosPorAula(String nombreDeAula);
 
 }
