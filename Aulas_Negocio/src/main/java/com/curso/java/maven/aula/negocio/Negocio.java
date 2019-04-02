@@ -1,37 +1,50 @@
 package com.curso.java.maven.aula.negocio;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Service;
 
 import com.curso.java.maven.aula.dao.IDAO;
 import com.curso.java.oo.ejercicio01oo.model.Alumno;
 import com.curso.java.oo.ejercicio01oo.model.Aula;
 import com.curso.java.oo.ejercicio01oo.model.Profesor;
 import com.curso.java.oo.ejercicio01oo.model.PuestoDeTrabajo;
-
+@Service
 public class Negocio {
+	
+	@Autowired
 	private IDAO miDao;
 	
-	public Negocio(IDAO miDao) {
-		super();
+	public IDAO getMiDao() {
+		return miDao;
+	}
+	public void setMiDao(IDAO miDao) {
 		this.miDao = miDao;
 	}
+	
+
 	//Crear Aula
-	public void createAula(String nombre, boolean pizarra, boolean proyector, Integer numeroDePuestos) {
-		Set<PuestoDeTrabajo> puestos = new HashSet<PuestoDeTrabajo>();
+	public void createAula(String nombre, boolean pizarra, boolean proyector, Integer numeroDePuestos,ApplicationContext context) {
+		Aula aula = context.getBean(Aula.class);
+		Set<PuestoDeTrabajo> puestos = aula.getPuestosDeAlumnos();
 		for(int i =0;i<numeroDePuestos;i++) {
-			puestos.add(new PuestoDeTrabajo(true));
+			//TODO: Llamar al bean para que me creee puestos de trabajo
+			puestos.add(new PuestoDeTrabajo());
 		}
-		Aula aula = new Aula(nombre, pizarra, proyector, puestos);
-		aula.setPuestoDelProfesor(new PuestoDeTrabajo(true));
+		//aula.getPuestoDelProfesor().setPersona(new Profesor());
+		aula.setNombre(nombre);
+		
+		//aula.setPuestoDelProfesor(new PuestoDeTrabajo(true));
 		miDao.createAula(aula);
 	}
 	
 	//Lista de Alumnos por aula (Mapa con clave el nombre del aula y valor lista de alumnos?)
-//Ya te dan un aula, no tienes q formar el set, del aula que te pidan sacas los alumnos de ahí a una lista.
+//Ya te dan un aula, no tienes q formar el set, del aula que te pidan sacas los alumnos de ahï¿½ a una lista.
 	public List<Alumno> listaDeAlumnosPorAula(String nombreDeAula) 
 	{
 		Aula aula = miDao.getAula(nombreDeAula);

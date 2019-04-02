@@ -42,10 +42,11 @@ public class ListDAO implements IDAO {
 	}
 
 	public void deleteAula(String nombreAula) {
-		Aula aulaABorrar = new Aula(nombreAula, false, false, null);
+		Aula aulaABorrar = new Aula();
+		aulaABorrar.setNombre(nombreAula);
 		listaDeAulas.remove(aulaABorrar);
 
-		// Esto está correcto!! 
+		// Esto estï¿½ correcto!! 
 		/*for (int i = 0; i < listaDeAulas.size(); i++) {
 			Aula aula = (Aula) listaDeAulas.get(i);
 			if (nombreAula == aula.getNombre()) {

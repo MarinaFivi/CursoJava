@@ -1,21 +1,23 @@
 package com.curso.java.maven.aula;
 
-import java.util.List;
-import java.util.Set;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.curso.java.maven.aula.dao.ListDAO;
-import com.curso.java.maven.aula.dao.MapDAO;
 import com.curso.java.maven.aula.negocio.Negocio;
 import com.curso.java.oo.ejercicio01oo.model.Alumno;
-import com.curso.java.oo.ejercicio01oo.model.Aula;
-import com.curso.java.oo.ejercicio01oo.model.Profesor;
-import com.curso.java.oo.ejercicio01oo.model.PuestoDeTrabajo;
 
 public class Lanzador1 {
 	
+	public static ApplicationContext context;
+	
+	static {
+		context = new ClassPathXmlApplicationContext("beans.xml");
+	}
+	
 	public static void main(String[] args) {
-/*		Alumno alumno1= new Alumno();
-		Alumno alumno2= new Alumno();
+		Alumno alumno1= new Alumno();
+		alumno1.setNombre("Marina");
+/*		Alumno alumno2= new Alumno();
 		Alumno alumno3= new Alumno();
 		Profesor profesor1= new Profesor();
 		Profesor profesor2= new Profesor();
@@ -31,14 +33,14 @@ public class Lanzador1 {
 		Aula aula1 = new Aula("Galileo", true, true, setPuestos);
 		Aula aula2 = new Aula("Kepler", false, false, setPuestos);
 */		
-		Negocio negocio = new Negocio(new MapDAO());
-		negocio.createAula("Galilei", true, false, 4); //crea aula
+		Negocio negocio = context.getBean(Negocio.class);
+		negocio.createAula("Galilei", true, false, 4,context); //crea aula
 		//List<Alumno> listAlumGalilei = negocio.listaDeAlumnosPorAula("Galilei"); //obtengo alumnos
 		//Alumno alumGalilei= listAlumGalilei.get(0);	
 		//System.out.println(alumGalilei.isSubvencionado()); //comprobacion veo alumno
-		negocio.asignarAlumnoAula("Galilei", new Alumno());
+		negocio.asignarAlumnoAula("Galilei", alumno1);
 		System.out.println(negocio.listaDeAlumnosPorAula("Galilei"));
-		System.out.println(negocio.listaDeProfesPorAula("Galilei"));	//obtengo profes	
+		//System.out.println(negocio.listaDeProfesPorAula("Galilei"));	//obtengo profes	
 		negocio.deleteAula("Galilei");
 		System.out.println(negocio.listaDeAlumnosPorAula("Galilei"));
 		//System.out.println(profeGalilei.isMalaLeche()); //comprobacion veo profesor
